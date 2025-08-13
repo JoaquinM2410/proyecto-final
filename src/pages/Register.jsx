@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Layout } from "../components/Layout"
 
 const Register = () => {
@@ -8,48 +8,45 @@ const Register = () => {
   const [errors, setErrors] = useState({})
   const [success, setSuccess] = useState("")
 
-  const validate = () => {
+  useEffect(() => {
     const newErrors = {}
 
-    // Usuario
-    if (!username.trim()) {
-      newErrors.username = "El nombre de usuario es obligatorio"
-    } else if (username.length < 3) {
+    if (username && username.length < 3) {
       newErrors.username = "El nombre de usuario debe tener al menos 3 caracteres"
     }
 
-    // Email
-    if (!email.trim()) {
-      newErrors.email = "El correo electrónico es obligatorio"
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      newErrors.email = "El correo electrónico no es válido"
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      newErrors.email = "El correo no es válido"
     }
 
-    // Contraseña
-    if (!password) {
-      newErrors.password = "La contraseña es obligatoria"
-    } else if (password.length < 6) {
+    if (password && password.length < 6) {
       newErrors.password = "La contraseña debe tener al menos 6 caracteres"
     }
 
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+  }, [username, email, password])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSuccess("")
-    if (!validate()) return
+    const newErrors = {}
+
+    if (!username.trim()) newErrors.username = "El nombre de usuario es obligatorio"
+    if (!email.trim()) newErrors.email = "El correo es obligatorio"
+    if (!password) newErrors.password = "La contraseña es obligatoria"
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
 
     const newUser = { username, email, password }
     console.log(newUser)
     setSuccess("Usuario registrado con éxito")
-
     setUsername("")
     setEmail("")
     setPassword("")
+    setErrors({})
   }
-
   return (
     <Layout>
       <h1>Registrate</h1>
