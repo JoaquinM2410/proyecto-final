@@ -11,27 +11,40 @@ const Home = () => {
   const [descriptionEdit, setDescriptionEdit] = useState("")
   const [categoryEdit, setCategoryEdit] = useState("")
   const [imageEdit, setImageEdit] = useState("")
+  const [search, setSearch] = useState("")
+  const [filteredProducts, setFilteredProducts] = useState([])
 
-  // simulando existencia del usuario, proximamente este estado será global
   const { user } = useAuth()
 
+  // Traer productos desde la API
   const fetchingProducts = async () => {
-    const response = await fetch("https://fakestoreapi.com/products", { method: "GET" })
-    const data = await response.json()
-    setProducts(data)
+    try {
+      const response = await fetch("https://fakestoreapi.com/products")
+      const data = await response.json()
+      setProducts(data)
+      setFilteredProducts(data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  // El array vacío (dependencias) espera a que ejecute el return del jsx. Si tiene algo, useEffect se va a ejecutar cada vez que se modifique lo que este dentro de la dependencia.
   useEffect(() => {
     fetchingProducts()
   }, [])
+
+  // Filtrar productos según búsqueda
+  useEffect(() => {
+    const result = products.filter(product =>
+      product.title.toLowerCase().includes(search.toLowerCase())
+    )
+    setFilteredProducts(result)
+  }, [search, products])
 
   const handleDelete = async (id) => {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`, { method: "DELETE" })
 
     if (response.ok) {
-      setProducts(prevProduct => prevProduct.filter((product) => product.id != id))
-      // fetchingProducts()
+      setProducts(prevProduct => prevProduct.filter(product => product.id !== id))
     }
   }
 
@@ -45,7 +58,6 @@ const Home = () => {
     setImageEdit(product.image)
   }
 
-  // petición al backend mediante fetch para modificar-> método PATCH / PUT https://fakeproductapi.com/products
   const handleUpdate = async (e) => {
     e.preventDefault()
 
@@ -61,21 +73,17 @@ const Home = () => {
     try {
       const response = await fetch(`https://fakestoreapi.com/products/${productToEdit.id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct)
       })
 
       if (response.ok) {
         const data = await response.json()
         setProducts(prevProduct =>
-          prevProduct.map((product) =>
-            product.id === productToEdit.id
-              ? data
-              : product
-          ))
-        // fetchingProducts()
+          prevProduct.map(product =>
+            product.id === productToEdit.id ? data : product
+          )
+        )
       }
       setShowPopup(false)
     } catch (error) {
@@ -112,62 +120,52 @@ const Home = () => {
         <h2>Nuestros productos</h2>
         <p>Elegí entre nuestras categorías más populares.</p>
 
+        {/* Barra de búsqueda integrada */}
+        <input
+          type="text"
+          className="form-control mb-3"
+          placeholder="Buscar producto..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-        {
-          showPopup && <section className="popup-edit">
+        {/* Popup de edición */}
+        {showPopup && (
+          <section className="popup-edit">
             <h2>Editando producto.</h2>
             <button onClick={() => setShowPopup(null)}>Cerrar</button>
             <form onSubmit={handleUpdate}>
-              <input
-                type="text"
-                placeholder="Ingrese el titulo"
-                value={titleEdit}
-                onChange={(e) => setTitleEdit(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Ingrese el precio"
-                value={priceEdit}
-                onChange={(e) => setPriceEdit(e.target.value)}
-              />
-              <textarea
-                placeholder="Ingrese la descripción"
-                value={descriptionEdit}
-                onChange={(e) => setDescriptionEdit(e.target.value)}
-              ></textarea>
-              <input
-                type="text"
-                placeholder="Ingrese la categoria"
-                value={categoryEdit}
-                onChange={(e) => setCategoryEdit(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Ingrese la URL de la imagen"
-                value={imageEdit}
-                onChange={(e) => setImageEdit(e.target.value)}
-              />
+              <input type="text" placeholder="Ingrese el titulo" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
+              <input type="number" placeholder="Ingrese el precio" value={priceEdit} onChange={(e) => setPriceEdit(e.target.value)} />
+              <textarea placeholder="Ingrese la descripción" value={descriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)}></textarea>
+              <input type="text" placeholder="Ingrese la categoria" value={categoryEdit} onChange={(e) => setCategoryEdit(e.target.value)} />
+              <input type="text" placeholder="Ingrese la URL de la imagen" value={imageEdit} onChange={(e) => setImageEdit(e.target.value)} />
               <button>Actualizar</button>
             </form>
           </section>
-        }
+        )}
 
+        {/* Listado filtrado */}
         <div>
-          {
-            products.map((product) => <div key={product.id}>
-              <h2 key={product.id}>{product.title}</h2>
-              <img width="80px" src={product.image} alt={`Imagen de ${product.title}`} />
-              <p>${product.price}</p>
-              <p>{product.description}</p>
-              <p><strong>{product.category}</strong></p>
-              {
-                user && <div>
-                  <button onClick={() => handleOpenEdit(product)}>Actualizar</button>
-                  <button onClick={() => handleDelete(product.id)}>Borrar</button>
-                </div>
-              }
-            </div>)
-          }
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map(product => (
+              <div key={product.id}>
+                <h2>{product.title}</h2>
+                <img width="80px" src={product.image} alt={`Imagen de ${product.title}`} />
+                <p>${product.price}</p>
+                <p>{product.description}</p>
+                <p><strong>{product.category}</strong></p>
+                {user && (
+                  <div>
+                    <button onClick={() => handleOpenEdit(product)}>Actualizar</button>
+                    <button onClick={() => handleDelete(product.id)}>Borrar</button>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No se encontraron productos</p>
+          )}
         </div>
       </section>
     </Layout>
