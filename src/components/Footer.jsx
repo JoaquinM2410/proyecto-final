@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer style={{ backgroundColor: "lightcoral" }}>
-      <p>Sitio desarrollado por <a href="https://www.linkedin.com/in/gabriel-alberini/" target="_blank">Gabriel Alberini</a></p>
+    <footer style={{ backgroundColor: "black" }}>
+      <p style={{ color: "white" }}>Sitio desarrollado por <a href="http://github.com/JoaquinM2410">Joaquin Manrresa</a></p>
     </footer>
   )
 }
