@@ -6,12 +6,9 @@ const UserProvider = (props) => {
   const [user, setUser] = useState(null)
 
   const login = async (username, password) => {
-    // realizar una petición al backend 
     const response = await fetch("https://fakestoreapi.com/auth/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
     })
 
@@ -24,12 +21,31 @@ const UserProvider = (props) => {
     }
   }
 
+  const register = async (username, email, password) => {
+    try {
+      const response = await fetch("https://fakestoreapi.com/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      })
+
+      if (!response.ok) throw new Error("Error al registrar usuario")
+
+      const data = await response.json()
+      setUser(true) // simulamos inicio de sesión automático
+      return data
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
+
   const logout = () => {
     setUser(null)
   }
 
   return (
-    <UserContext.Provider value={{ login, logout, user }}>
+    <UserContext.Provider value={{ login, logout, register, user }}>
       {props.children}
     </UserContext.Provider>
   )
