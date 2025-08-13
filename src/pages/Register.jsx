@@ -5,25 +5,43 @@ const Register = () => {
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [errors, setErrors] = useState({})
   const [success, setSuccess] = useState("")
+
+  const validate = () => {
+    const newErrors = {}
+
+    // Usuario
+    if (!username.trim()) {
+      newErrors.username = "El nombre de usuario es obligatorio"
+    } else if (username.length < 3) {
+      newErrors.username = "El nombre de usuario debe tener al menos 3 caracteres"
+    }
+
+    // Email
+    if (!email.trim()) {
+      newErrors.email = "El correo electrónico es obligatorio"
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      newErrors.email = "El correo electrónico no es válido"
+    }
+
+    // Contraseña
+    if (!password) {
+      newErrors.password = "La contraseña es obligatoria"
+    } else if (password.length < 6) {
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setError("")
     setSuccess("")
+    if (!validate()) return
 
-    if (!username || !email || !password) {
-      setError("Debes completar todos los campos")
-      return
-    }
-
-    const newUser = {
-      username,
-      email,
-      password
-    }
-
+    const newUser = { username, email, password }
     console.log(newUser)
     setSuccess("Usuario registrado con éxito")
 
@@ -43,35 +61,36 @@ const Register = () => {
             <label>Username:</label>
             <input
               type="text"
-              onChange={(e) => setUsername(e.target.value)}
               value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
+            {errors.username && <div>{errors.username}</div>}
           </div>
+
           <div>
             <label>Correo electrónico:</label>
             <input
               type="email"
-              onChange={(e) => setEmail(e.target.value)}
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && <div>{errors.email}</div>}
           </div>
+
           <div>
             <label>Contraseña:</label>
             <input
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
               value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.password && <div>{errors.password}</div>}
           </div>
-          <button>Ingresar</button>
+
+          <button type="submit">Registrarse</button>
         </form>
 
-        {
-          error && <p style={{ color: "red" }}>{error}</p>
-        }
-        {
-          success && <p style={{ color: "green" }}>{success}</p>
-        }
+        {success && <div>{success}</div>}
       </section>
     </Layout>
   )
