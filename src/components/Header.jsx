@@ -16,6 +16,7 @@ const Header = () => {
           {/* Cambiar elementos a por componentes Link de react-router-dom */}
           {
             user && <>
+              <li><Link to="/aboutUs">Sobre Nosotros</Link></li>
               <li><Link to="/">Inicio</Link></li>
               <li><Link to="/dashboard">Dashboard</Link></li>
               <button onClick={handleLogout}>Cerrar sesión</button>
@@ -23,6 +24,7 @@ const Header = () => {
           }
           {
             !user && <>
+              <li><Link to="/aboutUs">Sobre Nosotros</Link></li>
               <li><Link to="/login">Login</Link></li>
               <li><Link to="/registrate">Registrate</Link></li>
             </>
