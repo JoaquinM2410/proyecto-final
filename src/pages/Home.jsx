@@ -146,26 +146,52 @@ const Home = () => {
         )}
 
         {/* Listado filtrado */}
-        <div>
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
-              <div key={product.id}>
-                <h2>{product.title}</h2>
-                <img width="80px" src={product.image} alt={`Imagen de ${product.title}`} />
-                <p>${product.price}</p>
-                <p>{product.description}</p>
-                <p><strong>{product.category}</strong></p>
-                {user && (
-                  <div>
-                    <button onClick={() => handleOpenEdit(product)}>Actualizar</button>
-                    <button onClick={() => handleDelete(product.id)}>Borrar</button>
+        <div
+          className="container py-4"
+          style={{ backgroundColor: "#440213ff", borderRadius: "10px" }}
+        >
+          <div className="row g-4">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <div key={product.id} className="col-12 col-md-6 col-lg-4">
+                  <div className="p-1 bg-white shadow-sm rounded h-100 text-center" style={{ fontFamily: "Arial, sans-serif" }}>
+                    <h2 className="h5 fw-bold text-dark">{product.title}</h2>
+                    <img
+                      width="70px"
+                      src={product.image}
+                      alt={`Imagen de ${product.title}`}
+                      className="d-block mx-auto my-3"
+                    />
+                    <p className="text-dark fw-semibold">${product.price}</p>
+                    <p className="text-muted">{product.description}</p>
+                    <p>
+                      <strong className="text-secondary">{product.category}</strong>
+                    </p>
+                    {user && (
+                      <div className="d-flex justify-content-center gap-2 mt-3">
+                        <button
+                          className="btn btn-warning btn-sm"
+                          onClick={() => handleOpenEdit(product)}
+                        >
+                          Actualizar
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(product.id)}
+                        >
+                          Borrar
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No se encontraron productos</p>
-          )}
+                </div>
+              ))
+            ) : (
+              <p className="text-center fw-bold text-secondary">
+                No se encontraron productos
+              </p>
+            )}
+          </div>
         </div>
       </section>
     </Layout>
