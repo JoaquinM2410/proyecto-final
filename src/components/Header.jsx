@@ -21,22 +21,12 @@ const Header = () => {
             <img
               src="https://static.vecteezy.com/system/resources/previews/000/356/424/non_2x/vector-shop-icon.jpg"
               alt="Logo"
-              style={{ height: "80px" }}
+              style={{ height: "100px" }}
             />
           </Link>
 
-          {/* Botón responsive */}
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          {/* Links */}
-          <div className="collapse navbar-collapse" id="navbarNav">
+          {/* Links siempre visibles */}
+          <div className="navbar-collapse">
             <ul className="navbar-nav ms-auto">
               {user ? (
                 <>
@@ -89,7 +79,7 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+}
 
 export { Header }
 

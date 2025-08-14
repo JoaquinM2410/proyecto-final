@@ -69,30 +69,49 @@ const Register = () => {
 
   return (
     <Layout>
-      <div>
-        <h1>Registrate</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Username:</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-            {errors.username && <div style={{ color: "red" }}>{errors.username}</div>}
+      <div className="container py-5" style={{ fontFamily: "Arial, sans-serif", maxWidth: "500px" }}>
+        <h1 className="fw-bold text-center mb-4 text-dark">Registrate</h1>
+
+        <form onSubmit={handleSubmit} className="p-4 bg-white shadow-sm rounded d-flex flex-column gap-3">
+          <div className="form-group">
+            <label className="fw-semibold">Username:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            {errors.username && <div className="text-danger mt-1">{errors.username}</div>}
           </div>
 
-          <div>
-            <label>Correo electrónico:</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            {errors.email && <div style={{ color: "red" }}>{errors.email}</div>}
+          <div className="form-group">
+            <label className="fw-semibold">Correo electrónico:</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.email && <div className="text-danger mt-1">{errors.email}</div>}
           </div>
 
-          <div>
-            <label>Contraseña:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            {errors.password && <div style={{ color: "red" }}>{errors.password}</div>}
+          <div className="form-group">
+            <label className="fw-semibold">Contraseña:</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.password && <div className="text-danger mt-1">{errors.password}</div>}
           </div>
 
-          <button type="submit">Registrarse</button>
-          {errors.general && <div style={{ color: "red" }}>{errors.general}</div>}
-          {success && <div style={{ color: "green" }}>{success}</div>}
+          <button type="submit" className="btn btn-primary mt-2">
+            Registrarse
+          </button>
+
+          {errors.general && <div className="text-danger mt-2">{errors.general}</div>}
+          {success && <div className="text-success mt-2">{success}</div>}
         </form>
       </div>
     </Layout>

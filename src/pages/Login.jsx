@@ -34,39 +34,49 @@ const Login = () => {
 
   return (
     <Layout>
-      <h1>Inicia sesión</h1>
+      <div className="container py-5" style={{ fontFamily: "Arial, sans-serif", maxWidth: "500px" }}>
+        <h1 className="fw-bold text-center mb-4 text-dark">Inicia sesión</h1>
 
-      <section>
-        <h2>Hola, bienvenido de nuevo</h2>
-        <p>johnd, m38rmF$</p>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>Nombre de usuario:</label>
-            <input
-              type="text"
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
-            />
-          </div>
+        <section className="p-4 bg-white shadow-sm rounded">
+          <h2 className="fw-semibold text-center mb-3 text-dark">Hola, bienvenido de nuevo</h2>
+          <p className="text-center text-muted mb-4">johnd, m38rmF$</p>
 
-          <div>
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </div>
-
-          <button>Ingresar</button>
-
-          {error && (
-            <div>
-              {error} <Link to="/registrate">Registrarse</Link>
+          <form onSubmit={handleLogin} className="d-flex flex-column gap-3">
+            <div className="form-group">
+              <label className="fw-semibold">Nombre de usuario:</label>
+              <input
+                type="text"
+                className="form-control"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+              />
             </div>
-          )}
-        </form>
-      </section>
+
+            <div className="form-group">
+              <label className="fw-semibold">Contraseña:</label>
+              <input
+                type="password"
+                className="form-control"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary mt-2">
+              Ingresar
+            </button>
+
+            {error && (
+              <div className="text-danger mt-2">
+                {error}{" "}
+                <Link to="/registrate" className="text-decoration-none text-primary">
+                  Registrarse
+                </Link>
+              </div>
+            )}
+          </form>
+        </section>
+      </div>
     </Layout>
   )
 }
