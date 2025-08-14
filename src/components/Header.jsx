@@ -9,31 +9,87 @@ const Header = () => {
   }
 
   return (
-    <header style={{ backgroundColor: "lightblue" }}>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png" alt="imagen de logo" />
-      <nav>
-        <ul>
-          {/* Cambiar elementos a por componentes Link de react-router-dom */}
-          {
-            user && <>
-              <li><Link to="/aboutUs">Sobre Nosotros</Link></li>
-              <li><Link to="/">Inicio</Link></li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
-              <button onClick={handleLogout}>Cerrar sesión</button>
-            </>
-          }
-          {
-            !user && <>
-              <li><Link to="/aboutUs">Sobre Nosotros</Link></li>
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/registrate">Registrate</Link></li>
-            </>
-          }
-        </ul>
+    <header>
+      <header></header>
+      <nav
+        className="navbar navbar-expand-lg navbar-light"
+        style={{ backgroundColor: "#440213ff" }}
+      >
+        <div className="container">
+          {/* Logo */}
+          <Link className="navbar-brand" to="/">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/000/356/424/non_2x/vector-shop-icon.jpg"
+              alt="Logo"
+              style={{ height: "80px" }}
+            />
+          </Link>
+
+          {/* Botón responsive */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Links */}
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              {user ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link text-dark fw-semibold" to="/aboutUs">
+                      Sobre Nosotros
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link text-dark fw-semibold" to="/">
+                      Inicio
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link text-dark fw-semibold" to="/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      className="btn btn-outline-dark ms-2"
+                      onClick={handleLogout}
+                    >
+                      Cerrar sesión
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link text-white fw-semibold" to="/aboutUs">
+                      Sobre Nosotros
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link text-white fw-semibold" to="/login">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link text-white fw-semibold" to="/registrate">
+                      Registrate
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
-  )
-}
+  );
+};
 
 export { Header }
 

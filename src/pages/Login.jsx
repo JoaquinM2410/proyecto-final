@@ -2,27 +2,34 @@
 import { useState } from "react"
 import { Layout } from "../components/Layout"
 import { useAuth } from "../context/UserContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
   const { login } = useAuth()
-
-
-
-  const nagivate = useNavigate()
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log({ username, password })
+    setError("")
+
+    if (!username || !password) {
+      setError("Debes completar todos los campos")
+      return
+    }
+
     const isLogin = await login(username, password)
 
-    if (isLogin) {
-      setUsername("")
-      setPassword("")
-      nagivate("/")
+    if (!isLogin) {
+      setError("Usuario o contraseña incorrectos. Si no tenés cuenta, registrate.")
+      return
     }
+
+    setUsername("")
+    setPassword("")
+    navigate("/")
   }
 
   return (
@@ -38,16 +45,26 @@ const Login = () => {
             <input
               type="text"
               onChange={(e) => setUsername(e.target.value)}
-              value={username} />
+              value={username}
+            />
           </div>
+
           <div>
             <label>Contraseña:</label>
             <input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
-              value={password} />
+              value={password}
+            />
           </div>
+
           <button>Ingresar</button>
+
+          {error && (
+            <div>
+              {error} <Link to="/registrate">Registrarse</Link>
+            </div>
+          )}
         </form>
       </section>
     </Layout>
