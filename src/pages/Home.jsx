@@ -93,54 +93,105 @@ const Home = () => {
 
   return (
     <Layout>
-      <section>
-        <h1>Bienvenido a Nuestra Tienda</h1>
-        <p>Descubrí una selección exclusiva de productos para vos. Calidad, confianza y atención personalizada.</p>
+
+      <section className="container py-5 text-center" style={{ fontFamily: "Arial, sans-serif" }}>
+        <h1 className="fw-bold mb-3 text-dark">Bienvenido a Nuestra Tienda</h1>
+        <p className="text-muted fs-5">
+          Descubrí una selección exclusiva de productos para vos. Calidad, confianza y atención personalizada.
+        </p>
       </section>
 
-      <section>
-        <h2>¿Por qué elegirnos?</h2>
-        <ul>
-          <li>
-            <h3>Envíos a todo el país</h3>
-            <p>Recibí tu compra en la puerta de tu casa estés donde estés.</p>
+      <section className="container py-5" style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#440213ff", borderRadius: "10px" }}>
+        <h2 className="fw-bold text-center mb-4 text-dark">¿Por qué elegirnos?</h2>
+        <ul className="list-unstyled row g-4">
+          <li className="col-12 col-md-4 text-center">
+            <div className="p-3 bg-white shadow-sm rounded h-100">
+              <h3 className="fw-semibold mb-2 text-dark">Envíos a todo el país</h3>
+              <p className="text-muted mb-0">
+                Recibí tu compra en la puerta de tu casa estés donde estés.
+              </p>
+            </div>
           </li>
-          <li>
-            <h3>Pagos seguros</h3>
-            <p>Trabajamos con plataformas que garantizan tu seguridad.</p>
+          <li className="col-12 col-md-4 text-center">
+            <div className="p-3 bg-white shadow-sm rounded h-100">
+              <h3 className="fw-semibold mb-2 text-dark">Pagos seguros</h3>
+              <p className="text-muted mb-0">
+                Trabajamos con plataformas que garantizan tu seguridad.
+              </p>
+            </div>
           </li>
-          <li>
-            <h3>Atención personalizada</h3>
-            <p>Estamos disponibles para ayudarte en todo momento.</p>
+          <li className="col-12 col-md-4 text-center">
+            <div className="p-3 bg-white shadow-sm rounded h-100">
+              <h3 className="fw-semibold mb-2 text-dark">Atención personalizada</h3>
+              <p className="text-muted mb-0">
+                Estamos disponibles para ayudarte en todo momento.
+              </p>
+            </div>
           </li>
         </ul>
       </section>
 
-      <section>
-        <h2>Nuestros productos</h2>
-        <p>Elegí entre nuestras categorías más populares.</p>
+      <section className="container py-5" style={{ fontFamily: "Arial, sans-serif" }}>
+        <h2 className="fw-bold text-center mb-3 text-dark">Nuestros productos</h2>
+        <p className="text-center text-muted mb-4">
+          Elegí entre nuestras categorías más populares.
+        </p>
 
         {/* Barra de búsqueda integrada */}
         <input
           type="text"
-          className="form-control mb-3"
+          className="form-control mb-4"
           placeholder="Buscar producto..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          style={{ maxWidth: "400px", margin: "0 auto" }}
         />
 
         {/* Popup de edición */}
         {showPopup && (
-          <section className="popup-edit">
-            <h2>Editando producto.</h2>
-            <button onClick={() => setShowPopup(null)}>Cerrar</button>
-            <form onSubmit={handleUpdate}>
-              <input type="text" placeholder="Ingrese el titulo" value={titleEdit} onChange={(e) => setTitleEdit(e.target.value)} />
-              <input type="number" placeholder="Ingrese el precio" value={priceEdit} onChange={(e) => setPriceEdit(e.target.value)} />
-              <textarea placeholder="Ingrese la descripción" value={descriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)}></textarea>
-              <input type="text" placeholder="Ingrese la categoria" value={categoryEdit} onChange={(e) => setCategoryEdit(e.target.value)} />
-              <input type="text" placeholder="Ingrese la URL de la imagen" value={imageEdit} onChange={(e) => setImageEdit(e.target.value)} />
-              <button>Actualizar</button>
+          <section className="container py-4 p-3 bg-white shadow-sm rounded mt-4" style={{ maxWidth: "500px", fontFamily: "Arial, sans-serif" }}>
+            <h2 className="fw-bold text-center mb-3 text-dark">Editando producto.</h2>
+            <div className="text-center mb-3">
+              <button className="btn btn-secondary btn-sm" onClick={() => setShowPopup(null)}>
+                Cerrar
+              </button>
+            </div>
+            <form onSubmit={handleUpdate} className="d-flex flex-column gap-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Ingrese el titulo"
+                value={titleEdit}
+                onChange={(e) => setTitleEdit(e.target.value)}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Ingrese el precio"
+                value={priceEdit}
+                onChange={(e) => setPriceEdit(e.target.value)}
+              />
+              <textarea
+                className="form-control"
+                placeholder="Ingrese la descripción"
+                value={descriptionEdit}
+                onChange={(e) => setDescriptionEdit(e.target.value)}
+              ></textarea>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Ingrese la categoria"
+                value={categoryEdit}
+                onChange={(e) => setCategoryEdit(e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Ingrese la URL de la imagen"
+                value={imageEdit}
+                onChange={(e) => setImageEdit(e.target.value)}
+              />
+              <button className="btn btn-primary mt-2">Actualizar</button>
             </form>
           </section>
         )}
