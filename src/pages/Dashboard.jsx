@@ -51,41 +51,62 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <h1>Panel de Administración</h1>
+      <div className="container py-5" style={{ fontFamily: "Arial, sans-serif" }}>
+        <h1 className="fw-bold text-center mb-5 text-dark">Panel de Administración</h1>
 
-      <section>
-        <h2>Cargar nuevo producto</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Nombre del producto:</label>
-            <input type="text" name="nombre" onChange={(e) => setName(e.target.value)} value={name} />
-          </div>
+        <section className="p-4 bg-white shadow-sm rounded">
+          <h2 className="fw-semibold text-center mb-4 text-dark">Cargar nuevo producto</h2>
 
-          <div>
-            <label>Precio:</label>
-            <input type="number" name="precio" onChange={(e) => setPrice(e.target.value)} value={price} />
-          </div>
+          <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+            <div className="form-group">
+              <label className="fw-semibold">Nombre del producto:</label>
+              <input
+                type="text"
+                name="nombre"
+                className="form-control"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+              />
+            </div>
 
-          <div>
-            <label>Descripción:</label>
-            <textarea name="descripcion" rows="4" onChange={(e) => setDescription(e.target.value)} value={description} />
-          </div>
+            <div className="form-group">
+              <label className="fw-semibold">Precio:</label>
+              <input
+                type="number"
+                name="precio"
+                className="form-control"
+                onChange={(e) => setPrice(e.target.value)}
+                value={price}
+              />
+            </div>
 
-          {
-            error && <p className="error">{error}</p>
-          }
+            <div className="form-group">
+              <label className="fw-semibold">Descripción:</label>
+              <textarea
+                name="descripcion"
+                rows="4"
+                className="form-control"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+              />
+            </div>
 
-          <button>Guardar producto</button>
-        </form>
+            {error && <p className="text-danger fw-semibold">{error}</p>}
 
-        {
-          product && <div>
-            <h3>{product.title}</h3>
-            <p>${product.price}</p>
-            <p>{product.description}</p>
-          </div>
-        }
-      </section>
+            <button type="submit" className="btn btn-primary mt-2">
+              Guardar producto
+            </button>
+          </form>
+
+          {product && (
+            <div className="mt-4 p-3 bg-light rounded shadow-sm">
+              <h3 className="fw-bold text-dark">{product.title}</h3>
+              <p className="text-dark fw-semibold">${product.price}</p>
+              <p className="text-muted">{product.description}</p>
+            </div>
+          )}
+        </section>
+      </div>
     </Layout>
   )
 }
